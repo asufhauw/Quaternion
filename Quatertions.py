@@ -56,6 +56,7 @@ def normalize(q):
 
 def Mul_Quaternions((r1,i1,j1,k1),(r2,i2,j2,k2)):
     '''
+	
         Multiply two quaternions,
 
         real = r1*r2 - i1*i2 - j1*j2 - k1*k2
@@ -75,6 +76,8 @@ def Mul_Quaternions((r1,i1,j1,k1),(r2,i2,j2,k2)):
 
 def Pout(q,pin):
     '''
+	NEW POINT
+
         Multiply two quaternions,
 
         real = r1*r2 - i1*i2 - j1*j2 - k1*k2
@@ -118,21 +121,25 @@ def Test():
 DoTest=False
 if __name__ == '__main__':
     if DoTest: Test()
-    q = Calc_Quaternions((0,1,0),140)
+    q = (-1,0,0,0)#Calc_Quaternions((0,1,0),140)
+  '''  
     Quaternions2Euler(q)
     pout = Pout(q,(2,3,0)) 
     print('{}'.format(pout))
     q1 = ()
     q2 = ()
+    Mul_Quaternions(q,Calc_Quaternions((1,0,0),90))
     while(1):
         print('Enter a quaterion, using following format: ({i},{j},{k}),{rot}')
         in_val = input()
-        q1 = Calc_Quaternions(in_val[0],in_val[1])
+	
+        #q1 = Calc_Quaternions(in_val[0],in_val[1])
 
         print('Enter new quaterion, using following format: ({i},{j},{k}),{rot}')
-        in_val = input()
-        q2 = Calc_Quaternions(in_val[0],in_val[1])
+        #in_val = input()
+        #q2 = Calc_Quaternions(in_val[0],in_val[1])
         
         print('Multiplying the two quaterions we get the following:')
-        Mul_Quaternions(q1,q2)
+        #Mul_Quaternions(q1,q2)
 
+'''
