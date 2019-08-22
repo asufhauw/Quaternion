@@ -5,8 +5,8 @@ import pygame
 import OpenGL
 from OpenGL.GL import *
 from OpenGL.GLU import *
-RED = (0, 255, 0)
-GREEN = (255, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 class Display():
     X_Axis = (.5, 0, 0)
@@ -14,10 +14,14 @@ class Display():
     Z_Axis = (0, 0, .5)
     def __init__(self, W, H):
         pygame.init()
-        size = W,H
-        self.screen = pygame.display.set_mode(size, 
+        self.size = W,H
+        self.screen = pygame.display.set_mode(self.size, 
                 pygame.DOUBLEBUF|pygame.OPENGL)
         
+        gluPerspective(45,self.size[0]/self.size[1],0.1,50.0)
+        glTranslatef(0.0,0.0,-3)
+        glRotatef(10, 1, 0, 0)
+        glRotatef(-45,0,1,0)
     def paint(self):
          # get event
         for event in pygame.event.get():

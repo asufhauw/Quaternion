@@ -33,7 +33,6 @@ if __name__ == '__main__':
         print('x: {}'.format(screen.X_Axis))
         print('y: {}'.format(screen.Y_Axis))
         print('z: {}'.format(screen.Z_Axis))
-        
         screen.paint()
         
         exit = input('wanna exit (y/n)?: ')
