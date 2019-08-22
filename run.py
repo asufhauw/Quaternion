@@ -10,16 +10,17 @@ if __name__ == '__main__':
     exit = ''
     screen = Display(W,H)
     while exit != 'y':
-
         angle = input('enter angle in degrees: ')
         angle = float(angle)
         axis = input('enter axis (e.g 0,0,1 to rotate in Z: ')
         axis = tuple(float(axis.strip()) for axis in axis.split(',')) 
+        q_1 = input('enter your quaternion(default 1,0,0,0): ')
+        q_1 = tuple(float(q_1.strip()) for q_1 in q_1.split(','))
         print(axis)
         r = 2.0*math.pi/360.0 * angle
-
         x = get_quaternion(r,axis)
         print('q = {}'.format(x))
+        x = mul(q_1,x)
         point = rotate(x,(1,0,0))
         point = (point[1],point[2],point[3])
         screen.X_Axis = point
