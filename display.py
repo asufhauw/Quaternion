@@ -5,6 +5,7 @@ import pygame
 import OpenGL
 from OpenGL.GL import *
 from OpenGL.GLU import *
+
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
@@ -12,6 +13,7 @@ class Display():
     X_Axis = (.5, 0, 0)
     Y_Axis = (0, .5, 0)
     Z_Axis = (0, 0, .5)
+
     def __init__(self, W, H):
         pygame.init()
         self.size = W,H
@@ -22,6 +24,7 @@ class Display():
         glTranslatef(0.0,0.0,-3)
         glRotatef(10, 1, 0, 0)
         glRotatef(-45,0,1,0)
+
     def paint(self):
          # get event
         for event in pygame.event.get():
