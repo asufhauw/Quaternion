@@ -13,7 +13,7 @@ class Display():
     X_Axis = (.5, 0, 0)
     Y_Axis = (0, .5, 0)
     Z_Axis = (0, 0, .5)
-
+    
     def __init__(self, W, H):
         pygame.init()
         self.size = W,H
@@ -24,12 +24,17 @@ class Display():
         glTranslatef(0.0,0.0,-3)
         glRotatef(10, 1, 0, 0)
         glRotatef(-45,0,1,0)
-
+        self.WaitInput = False 
     def paint(self):
          # get event
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                print(event)
+                if event.key == pygame.K_SPACE:
+                    print("Hello, Space bar")
+                    self.WaitInput = True             
         # paint
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT) 
         self.draw_axis()
