@@ -22,8 +22,10 @@ class Display():
         
         gluPerspective(45,self.size[0]/self.size[1],0.1,50.0)
         glTranslatef(0.0,0.0,-3)
-        glRotatef(10, 1, 0, 0)
-        glRotatef(-45,0,1,0)
+   #     glTranslatef(-3.0,-2.0,0.0)
+      #  glRotatef(0,180,0,0)#glRotatef(10, 1, 0, 0)
+        #glRotatef(90,0,0,0)
+        #glRotatef(-45,0,1,0)
         self.WaitInput = False 
     def paint(self):
          # get event

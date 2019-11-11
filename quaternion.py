@@ -60,6 +60,11 @@ def add(q1, q2):
 def diff(q1, q2):
     return (q1[0]-q2[0],q1[1]-q2[1],q1[2]-q2[2])
 
+def quaterion2Euler(q):
+    norm_q = normalize(q)
+    
+    pass
+
 def reflect():
     pass
 
