@@ -1,0 +1,4 @@
+Requirements
+-------------
+Install Python3
+run "pip install -r requirements.txt" in terminal/console in current directory
