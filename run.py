@@ -1,6 +1,8 @@
 #/Library/Frameworks/Python.framework/Versions/3.7/bin/python3
 from display import Display
 from quaternion import *
+def deg2rad(deg):
+    return 2.0*math.pi/360.0 * deg
 
 # Test.. Todo: Add unit test
 W, H = 640, 480
@@ -19,9 +21,7 @@ if __name__ == '__main__':
         q_1 = tuple(float(q_1.strip()) for q_1 in q_1.split(','))
         print(axis)
         print('{},{},{},{}'.format(q_1[0],q_1[1],q_1[2],q_1[3]))
-        r = 2.0*math.pi/360.0 * angle
-        x = get_quaternion(r,axis)
-        #print('q = {}'.format(x))
+        x = quat(deg2rad(angle),axis)
         x = mul(q_1,x)
         print('q = {}'.format(x))
         point = rotate(x,(1,0,0))

@@ -1,69 +1,60 @@
-
-import numpy as np
 import sys
 import pygame
+from OpenGLContext import testingcontext
+BaseContext = testingcontext.getInteractive()
 import OpenGL
 from OpenGL.GL import *
+from OpenGL.arrays import vbo
+from OpenGLContext.arrays import *
+from OpenGL.GL import shaders
 from OpenGL.GLU import *
+import glm 
 
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
 
-vertices= (
-    (1, -1, -1),
-    (1, 1, -1),
-    (-1, 1, -1),
-    (-1, -1, -1),
-    (1, -1, 1),
-    (1, 1, 1),
-    (-1, -1, 1),
-    (-1, 1, 1)
-)
-
-edges = ((0,1), (0,3), (0,4), (2,1),
-    (2,3), (2,7), (6,3), (6,4), 
-    (6,7), (5,1), (5,4), (5,7))
-
-def Cube():
-    glBegin(GL_LINES)
-    for edge in edges:
-        for vertex in edge:
-            glVertex3fv(vertices[vertex])
-    glEnd()
-
-class Display():
-    X_Axis = (.5, 0, 0)
-    Y_Axis = (0, .5, 0)
-    Z_Axis = (0, 0, .5)
-    
+class Display(BaseContext):
+    X_Axis = glm.vec3(1, 0, 0)
+    Y_Axis = glm.vec3(0, 1, 0)
+    Z_Axis = glm.vec3(0, 0, 1)
+   # view = glm.lookAt(glm.vec3(0.0, 0.0, 3.0),glm.vec3(0.0, 0.0, 0.0),glm.vec3(0.0, 1.0, 0.0))
     def __init__(self, W, H):
         pygame.init()
         self.size = W,H
         self.screen = pygame.display.set_mode(self.size, 
                 pygame.DOUBLEBUF|pygame.OPENGL)
-        gluPerspective(45,self.size[0]/self.size[1],0.1,50.0)
-        glTranslatef(0.0,0.0,-5)
         self.WaitInput = False 
+
+    def OnInit(self):
+        glViewport(0,0,W,H)
+        gluPerspective(60,self.size[0]/self.size[1],0.1,50.0)
+        glTranslatef(0.0,0.0,-5)
+
     def paint(self):
          # get event
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                print(event)
+                if event.key == pygame.K_LEFT:
+                    glTranslatef(-0.5,0.0,0.0)
+                if event.key == pygame.K_RIGHT:
+                    glTranslatef(0.5,0.0,0.0)
+                if event.key == pygame.K_UP:
+                    glTranslatef(0.0,1.0,0.0)
+                if event.key == pygame.K_DOWN:
+                    glTranslatef(0.0,-1.0,0.0)
                 if event.key == pygame.K_SPACE:
-                    print("Hello, Space bar")
                     self.WaitInput = True             # paint
 
-        glRotatef(0,3,0,0) 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT) 
         self.draw_axis()
-        Cube()
         pygame.display.flip()
         pygame.time.wait(10)
     def draw_axis(self):
+        gl_PointSize = 100
         glBegin(GL_LINES)
         # x-axis red color
         glColor3f(RED[0],RED[1],RED[2])
