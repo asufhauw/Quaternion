@@ -58,13 +58,39 @@ def mul(q1, q2):
 def add(q1, q2):
     return (q1[0]+q2[0],q1[1]+q2[1],q1[2]+q2[2])
 
+def inverse(q):
+    return div(conj(q),dot(q,q))
+
+def div(q,s):
+    return (q[0]/s,q[1]/s,q[2]/s,q[3]/s)
+
+def dot(q1,q2):
+    assert (len(q1) == 4 and len(q2) == 4)
+    return q1[0]*q2[0] + q1[1]*q2[1] + q1[2]*q2[2] + q1[3]*q2[3]
+
 def diff(q1, q2):
-    return (q1[0]-q2[0],q1[1]-q2[1],q1[2]-q2[2])
+    inv = inverse(q1)
+    return mul(inv,q2)
+    #return (q1[0]-q2[0],q1[1]-q2[1],q1[2]-q2[2])
 
 def quat2Euler(q):
-    norm_q = normalize(q)
+    #norm_q = normalize(q)
+    import math
+    #roll (x-axis rot)
+    roll = math.atan2(2*(q[0]*q[1]+q[2]*q[3]),1-2*(q[1]*q[1]+q[2]*q[2]))
+    # pitch (y-axis rot)
+    sinp = 2*(q[0]*q[2]-q[3]*q[1])
+    if abs(sinp) >= 1:
+        pitch = math.copysign(math.PI/2, sinp)
+    else:
+        pitch = math.asin(sinp)
+    #yaw (z-axis rot)
+    siny = 2*(q[0]*q[3]-q[1]*q[2])
+    cosy = 1-2*(q[2]*q[2]+q[3]*q[3])
+    yaw = math.atan2(siny,cosy)
     
-    pass
+    return (180*roll/math.pi,180*pitch/math.pi,180*yaw/math.pi)
+
 def quat2Mat4(q):
     """1 - 2*qy2 - 2*qz2  2*qx*qy - 2*qz*qw   2*qx*qz + 2*qy*qw
     2*qx*qy + 2*qz*qw   1 - 2*qx2 - 2*qz2   2*qy*qz - 2*qx*qw
