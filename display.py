@@ -1,11 +1,8 @@
 import sys
 import pygame
-from OpenGLContext import testingcontext
-BaseContext = testingcontext.getInteractive()
 import OpenGL
 from OpenGL.GL import *
 from OpenGL.arrays import vbo
-from OpenGLContext.arrays import *
 from OpenGL.GL import shaders
 from OpenGL.GLU import *
 import glm 
@@ -14,11 +11,20 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+Points = [
+        1.0,0.0,0.0,
+        0.0,1.0,0.0,
+        0.0,0.0,1.0
+        ]
 
-class Display(BaseContext):
+class Display():
     X_Axis = glm.vec3(1, 0, 0)
     Y_Axis = glm.vec3(0, 1, 0)
     Z_Axis = glm.vec3(0, 0, 1)
+    model = glm.mat4();
+    view = glm.mat4();
+    projection = glm.mat4();
+    fov = 45.0
    # view = glm.lookAt(glm.vec3(0.0, 0.0, 3.0),glm.vec3(0.0, 0.0, 0.0),glm.vec3(0.0, 1.0, 0.0))
     def __init__(self, W, H):
         pygame.init()
@@ -26,11 +32,11 @@ class Display(BaseContext):
         self.screen = pygame.display.set_mode(self.size, 
                 pygame.DOUBLEBUF|pygame.OPENGL)
         self.WaitInput = False 
-
-    def OnInit(self):
         glViewport(0,0,W,H)
-        gluPerspective(60,self.size[0]/self.size[1],0.1,50.0)
-        glTranslatef(0.0,0.0,-5)
+        self.view = glm.lookat(glm.vec3(0.0,0.0,0.3), glm.vec3(0.0,0.0,0.0), glm.vec3(0.0,1.0,0.0))
+        self.projection = glm.perspective(glm.radians(self.fov),W/H,0.1,100.0)
+        #gluPerspective(60,self.size[0]/self.size[1],0.1,50.0)
+        #glTranslatef(0.0,0.0,-5)
 
     def paint(self):
          # get event
@@ -38,6 +44,7 @@ class Display(BaseContext):
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
+                pass
                 if event.key == pygame.K_LEFT:
                     glTranslatef(-0.5,0.0,0.0)
                 if event.key == pygame.K_RIGHT:
@@ -53,6 +60,7 @@ class Display(BaseContext):
         self.draw_axis()
         pygame.display.flip()
         pygame.time.wait(10)
+
     def draw_axis(self):
         gl_PointSize = 100
         glBegin(GL_LINES)
@@ -69,6 +77,6 @@ class Display(BaseContext):
         glVertex3f(0,0,0)
         glVertex3f(self.Z_Axis[0],self.Z_Axis[1],self.Z_Axis[2])
         glEnd();
-#        glRotatef(1,3,1,1)
+#       glRotatef(1,3,1,1)
 
 
